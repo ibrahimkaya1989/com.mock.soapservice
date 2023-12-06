@@ -1,0 +1,6 @@
+INSTALL:
+npm install soap
+npm install express
+
+RUN:
+node example.js
