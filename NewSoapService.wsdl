@@ -1,0 +1,60 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             targetNamespace="http://www.example.com/your-soap-service"
+             xmlns:tns="http://www.example.com/your-soap-service">
+
+  <types>
+    <xs:schema targetNamespace="http://www.example.com/your-soap-service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="YourRequestType">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="param1" type="xs:string"/>
+            <xs:element name="param2" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="YourResponseType">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="response" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
+
+  <message name="YourSoapMethodRequest">
+    <part name="parameters" element="tns:YourRequestType"/>
+  </message>
+
+  <message name="YourSoapMethodResponse">
+    <part name="parameters" element="tns:YourResponseType"/>
+  </message>
+
+  <portType name="YourSoapServicePortType">
+    <operation name="YourSoapMethod">
+      <input message="tns:YourSoapMethodRequest"/>
+      <output message="tns:YourSoapMethodResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="YourSoapServiceBinding" type="tns:YourSoapServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="YourSoapMethod">
+      <soap:operation soapAction="http://www.example.com/your-soap-service/YourSoapMethod"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="YourSoapService">
+    <port name="YourSoapServicePort" binding="tns:YourSoapServiceBinding">
+      <soap:address location="http://localhost:3000/YourSoapService"/>
+    </port>
+  </service>
+</definitions>
